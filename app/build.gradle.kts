@@ -1,20 +1,22 @@
 plugins {
+    kotlin("kapt")
     id ("com.android.application")
     id ("org.jetbrains.kotlin.android")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
-    namespace = "com.flow.moviesearch"
-    compileSdk = 33
+    namespace = AppConfig.applicationId
+    compileSdk = AppConfig.compileSdk
 
     defaultConfig {
-        applicationId = "com.flow.moviesearch"
-        minSdk = 26
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = AppConfig.applicationId
+        minSdk = AppConfig.minSdk
+        targetSdk = AppConfig.targetSdk
+        versionCode = AppConfig.versionCode
+        versionName = AppConfig.versionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = AppConfig.testInstrumentationRunner
     }
 
     buildTypes {
@@ -30,15 +32,35 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures {
+        dataBinding = true
+    }
 }
 
 dependencies {
+    implementation(Dependencies.Libraries.AndroidX)
 
-    implementation ("androidx.core:core-ktx:1.9.0")
-    implementation ("androidx.appcompat:appcompat:1.6.0")
-    implementation ("com.google.android.material:material:1.8.0")
-    implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
-    testImplementation ("junit:junit:4.13.2")
-    androidTestImplementation ("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(Dependencies.Libraries.Ktx)
+
+    implementation(Dependencies.Libraries.Retrofit)
+
+    implementation(Dependencies.Libraries.Okhttp)
+
+    implementation(Dependencies.Libraries.Glide)
+    kapt(Dependencies.Libraries.Glide)
+
+    implementation(Dependencies.Libraries.Hilt)
+    kapt(Dependencies.Libraries.Hilt)
+
+    implementation(Dependencies.Libraries.Room)
+    kapt(Dependencies.Libraries.Room)
+
+    implementation(Dependencies.Libraries.Timber)
+
+    testImplementation(Dependencies.Libraries.CoroutineTest)
+
+    testImplementation(Dependencies.Libraries.Test)
+
+    androidTestImplementation(Dependencies.Libraries.AndroidTest)
 }
