@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     kotlin("kapt")
     id ("com.android.application")
@@ -17,6 +18,9 @@ android {
         versionName = AppConfig.versionName
 
         testInstrumentationRunner = AppConfig.testInstrumentationRunner
+
+        buildConfigField("String", "API_CLIENT_ID", gradleLocalProperties(rootDir).getProperty("API_CLIENT_ID"))
+        buildConfigField("String", "API_CLIENT_SECRET", gradleLocalProperties(rootDir).getProperty("API_CLIENT_SECRET"))
     }
 
     buildTypes {
