@@ -1,6 +1,8 @@
 package com.flow.moviesearch.data.entity.response
 
 
+import com.flow.moviesearch.domain.model.MovieModel
+import com.flow.moviesearch.domain.model.MovieSearchResModel
 import com.google.gson.annotations.SerializedName
 
 data class MovieSearchResponse(
@@ -15,6 +17,11 @@ data class MovieSearchResponse(
     @SerializedName("total")
     val total: Int
 ) {
+    fun toModel(curPage: Int): MovieSearchResModel = MovieSearchResModel(
+        movies = items.map { it.toModel() },
+        curPage = curPage
+    )
+
     data class Item(
         @SerializedName("actor")
         val actor: String,
@@ -31,6 +38,13 @@ data class MovieSearchResponse(
         @SerializedName("title")
         val title: String,
         @SerializedName("userRating")
-        val userRating: String
-    )
+        val userRating: Double
+    ) {
+        fun toModel(): MovieModel = MovieModel(
+            imageUrl = image,
+            title = title,
+            pubYear = pubDate,
+            rating = userRating
+        )
+    }
 }
