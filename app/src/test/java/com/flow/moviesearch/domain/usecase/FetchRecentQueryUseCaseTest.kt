@@ -1,6 +1,5 @@
 package com.flow.moviesearch.domain.usecase
 
-import com.flow.moviesearch.domain.model.MovieSearchResModel
 import com.flow.moviesearch.domain.repository.MovieRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
