@@ -2,16 +2,19 @@ package com.flow.moviesearch.data.repository
 
 import com.flow.moviesearch.data.constant.NetworkConstant
 import com.flow.moviesearch.data.datasource.MovieSearchDataSource
+import com.flow.moviesearch.data.datasource.RecentQueryDataSource
 import com.flow.moviesearch.domain.model.DomainException
 import com.flow.moviesearch.domain.model.MovieSearchResModel
 import com.flow.moviesearch.domain.repository.MovieRepository
 import com.flow.moviesearch.presentation.di.DefaultDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import java.util.Date
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
     private val movieSearchDataSource: MovieSearchDataSource,
+    private val recentQueryDataSource: RecentQueryDataSource,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher
 ) : MovieRepository {
 
@@ -47,11 +50,11 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveRecentQuery(query: String): Boolean {
-        return true
+        return recentQueryDataSource.saveRecentQuery(query, Date().time)
     }
 
     override suspend fun fetchRecentQuery(): List<String> {
-        return emptyList()
+        return recentQueryDataSource.fetchRecentQueries().map { it.query }
     }
 
 }

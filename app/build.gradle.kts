@@ -40,6 +40,10 @@ android {
     buildFeatures {
         dataBinding = true
     }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
 }
 
 dependencies {
@@ -63,6 +67,7 @@ dependencies {
     implementation(Dependencies.Libraries.Timber)
 
     testImplementation(Dependencies.Libraries.CoroutineTest)
+    androidTestImplementation(Dependencies.Libraries.CoroutineTest)
 
     testImplementation(Dependencies.Libraries.Test)
 

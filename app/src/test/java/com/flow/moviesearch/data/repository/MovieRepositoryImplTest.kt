@@ -2,7 +2,9 @@ package com.flow.moviesearch.data.repository
 
 import com.flow.moviesearch.data.constant.NetworkConstant
 import com.flow.moviesearch.data.datasource.MovieSearchDataSource
+import com.flow.moviesearch.data.datasource.RecentQueryDataSource
 import com.flow.moviesearch.data.entity.response.MovieSearchResponse
+import com.flow.moviesearch.data.local.RecentQueryEntity
 import com.flow.moviesearch.domain.model.DomainException
 import com.flow.moviesearch.domain.repository.MovieRepository
 import io.mockk.coEvery
@@ -24,6 +26,7 @@ internal class MovieRepositoryImplTest {
 
     private lateinit var repository: MovieRepository
     private lateinit var searchDataSource: MovieSearchDataSource
+    private lateinit var recentQueryDataSource: RecentQueryDataSource
     private val testDispatcher = StandardTestDispatcher(TestCoroutineScheduler())
 
     private val dummy = MovieSearchResponse(
@@ -41,8 +44,10 @@ internal class MovieRepositoryImplTest {
     @Before
     fun setUpTest() {
         searchDataSource = mockk(relaxed = true)
+        recentQueryDataSource = mockk(relaxed = true)
         repository = MovieRepositoryImpl(
             searchDataSource,
+            recentQueryDataSource,
             testDispatcher
         )
     }
@@ -132,5 +137,29 @@ internal class MovieRepositoryImplTest {
     fun `searchMovie는 MovieSearchDataSource의 searchMovie를 호출한다`() = runTest(testDispatcher) {
         repository.searchMovie("query", 1)
         coVerify { searchDataSource.searchMovie(any(), any()) }
+    }
+
+    @Test
+    fun `saveRecentQuery는 RecentQueryDataSource의 saveRecentQuery를 호출한다`() = runTest(testDispatcher) {
+        repository.saveRecentQuery("query")
+        coVerify { recentQueryDataSource.saveRecentQuery(any(), any()) }
+    }
+
+    @Test
+    fun `fetchRecentQuery RecentQueryDataSource의 fetchRecentQueries결과를 String리스트로 가공하여 리턴한다`() = runTest(testDispatcher) {
+        val expect = Array(5){ RecentQueryEntity((100+it).toString(), (100+it).toLong()) }.toList()
+        coEvery { recentQueryDataSource.fetchRecentQueries() } returns expect
+
+        val actual = repository.fetchRecentQuery()
+
+        assertThat(actual)
+            .hasSize(expect.size)
+            .containsAll(expect.map{it.query})
+    }
+
+    @Test
+    fun `fetchRecentQuery RecentQueryDataSource의 fetchRecentQueries 호출한다`() = runTest(testDispatcher) {
+        repository.fetchRecentQuery()
+        coVerify { recentQueryDataSource.fetchRecentQueries() }
     }
 }
