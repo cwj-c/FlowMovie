@@ -63,6 +63,7 @@ dependencies {
     implementation(Dependencies.Libraries.Timber)
 
     testImplementation(Dependencies.Libraries.CoroutineTest)
+    androidTestImplementation(Dependencies.Libraries.CoroutineTest)
 
     testImplementation(Dependencies.Libraries.Test)
 

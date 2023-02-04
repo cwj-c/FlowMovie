@@ -131,12 +131,12 @@ object Dependencies {
             override val implementations = listOf(timber)
         }
 
-        object CoroutineTest : TestImplementationItem {
+        object CoroutineTest : TestImplementationItem, AndroidTestImplementationItem {
             private const val coroutineTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Dependencies.Version.coroutineTest}"
 
-            override val testImplementations = listOf(
-                coroutineTest
-            )
+            override val testImplementations = listOf(coroutineTest)
+
+            override val androidTestImplementations = listOf(coroutineTest)
         }
 
         object Test : TestImplementationItem {
