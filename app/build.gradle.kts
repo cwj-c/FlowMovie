@@ -40,6 +40,10 @@ android {
     buildFeatures {
         dataBinding = true
     }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
 }
 
 dependencies {
