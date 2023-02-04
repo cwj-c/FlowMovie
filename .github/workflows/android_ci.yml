@@ -26,19 +26,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
             
-      - name: Access Client_ID
+      - name: Access Secret Key
         run: |
-          echo API_CLIENT_ID=\"$API_KEY\" > local.properties
-        shell: bash
-        env:
-          API_KEY: ${{ secrets.API_CLIENT_ID }}
-          
-      - name: Access Client_Secret
-        run: |
-          echo API_CLIENT_SECRET=\"$API_KEY\" > local.properties
-        shell: bash
-        env:
-          API_KEY: ${{ secrets.API_CLIENT_SECRET }}
+          echo API_CLIENT_ID=\"${{ secrets.API_CLIENT_ID }}\" >> local.properties
+          echo API_CLIENT_SECRET=\"${{ secrets.API_CLIENT_SECRET }}\" >> local.properties
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -72,19 +63,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
             
-      - name: Access Client_ID
+      - name: Access Secret Key
         run: |
-          echo API_CLIENT_ID=\"$API_KEY\" > local.properties
-        shell: bash
-        env:
-          API_KEY: ${{ secrets.API_CLIENT_ID }}
-          
-      - name: Access Client_Secret
-        run: |
-          echo API_CLIENT_SECRET=\"$API_KEY\" > local.properties
-        shell: bash
-        env:
-          API_KEY: ${{ secrets.API_CLIENT_SECRET }}
+          echo API_CLIENT_ID=\"${{ secrets.API_CLIENT_ID }}\" >> local.properties
+          echo API_CLIENT_SECRET=\"${{ secrets.API_CLIENT_SECRET }}\" >> local.properties
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
