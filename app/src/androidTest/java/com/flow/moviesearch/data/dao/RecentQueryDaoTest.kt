@@ -3,9 +3,9 @@ package com.flow.moviesearch.data.dao
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import com.flow.moviesearch.data.constant.MovieHistoryConstant
 import com.flow.moviesearch.data.local.MovieRoomDatabase
 import com.flow.moviesearch.data.local.RecentQueryEntity
-import io.mockk.InternalPlatformDsl.toStr
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
@@ -59,8 +59,8 @@ internal class RecentQueryDaoTest {
     }
 
     @Test
-    fun removeRecentQueries_remove_without_last_20_item() = runTest(testDispatcher) {
-        val entities = Array(25) { RecentQueryEntity(query = (100+it).toString(), time = (100+it).toLong()) }
+    fun removeRecentQueries_remove_without_last_HISTORY_MAX_SIZE_item() = runTest(testDispatcher) {
+        val entities = Array(MovieHistoryConstant.HISTORY_MAX_SIZE * 2) { RecentQueryEntity(query = (100+it).toString(), time = (100+it).toLong()) }
         entities.forEach {
             dao.insertRecentQuery(it)
         }
@@ -70,15 +70,15 @@ internal class RecentQueryDaoTest {
         val actual = dao.fetchRecentQueries()
 
         assertThat(actual)
-            .hasSize(20)
+            .hasSize(MovieHistoryConstant.HISTORY_MAX_SIZE)
             .contains(entities[0])
-            .contains(entities[19])
+            .contains(entities[MovieHistoryConstant.HISTORY_MAX_SIZE - 1])
 
     }
 
     @Test
-    fun saveRecentQuery_save_maximum_last_20_item() = runTest(testDispatcher) {
-        val entities = Array(25) { RecentQueryEntity(query = (100+it).toString(), time = (100+it).toLong()) }
+    fun saveRecentQuery_save_maximum_last_HISTORY_MAX_SIZE_item() = runTest(testDispatcher) {
+        val entities = Array(MovieHistoryConstant.HISTORY_MAX_SIZE * 2) { RecentQueryEntity(query = (100+it).toString(), time = (100+it).toLong()) }
         entities.forEach {
             dao.saveRecentQuery(it.query, it.time)
         }
@@ -86,9 +86,9 @@ internal class RecentQueryDaoTest {
         val actual = dao.fetchRecentQueries()
 
         assertThat(actual)
-            .hasSize(20)
+            .hasSize(MovieHistoryConstant.HISTORY_MAX_SIZE)
             .contains(entities[0])
-            .contains(entities[19])
+            .contains(entities[MovieHistoryConstant.HISTORY_MAX_SIZE - 1])
     }
 
 }

@@ -12,6 +12,7 @@ interface StringResourceProvider {
         Loading(R.string.loading),
         NetworkConnectFail(R.string.message_network_connection_fail),
         NoneSearchResult(R.string.message_none_search_result),
+        NoneQueryHistory(R.string.message_none_query_history),
         NoneQuery(R.string.message_none_query),
         SearchFail(R.string.message_search_fail),
         LastPage(R.string.message_last_page)

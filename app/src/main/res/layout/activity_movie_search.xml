@@ -63,14 +63,15 @@
             />
 
         <TextView
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:textColor="@color/text_selector_gray_6c6c6c"
             android:onClickListener="@{() -> viewModel.recentQueryHistoryEvent()}"
             android:id="@+id/tv_recent_history"
             android:layout_marginHorizontal="@dimen/margin"
             android:layout_marginTop="@dimen/margin"
             app:layout_constraintTop_toBottomOf="@id/et_query"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/recent_query_history"
             />

@@ -1,6 +1,6 @@
 package com.flow.moviesearch.data.repository
 
-import com.flow.moviesearch.data.constant.NetworkConstant
+import com.flow.moviesearch.data.constant.MovieApiConstant
 import com.flow.moviesearch.data.datasource.MovieSearchDataSource
 import com.flow.moviesearch.data.datasource.RecentQueryDataSource
 import com.flow.moviesearch.domain.model.DomainException
@@ -33,7 +33,7 @@ class MovieRepositoryImpl @Inject constructor(
                     if(totalPage < page) {
                         throw DomainException.MaxPageException("total page is $totalPage, current page is $page")
                     }
-                    val start = (page-1) * NetworkConstant.RESPONSE_DISPLAY + 1 // 이전 페이지 마지막 Item + 1
+                    val start = (page-1) * MovieApiConstant.RESPONSE_DISPLAY + 1 // 이전 페이지 마지막 Item + 1
                     movieSearchDataSource.searchMovie(query, start)
                         .also { total = it.total }
                         .toModel(page)
@@ -42,7 +42,7 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun getTotalPage(total: Int, display: Int = NetworkConstant.RESPONSE_DISPLAY): Int {
+    private fun getTotalPage(total: Int, display: Int = MovieApiConstant.RESPONSE_DISPLAY): Int {
         return when (total % display == 0) {
             true -> total/display
             else -> total/display + 1

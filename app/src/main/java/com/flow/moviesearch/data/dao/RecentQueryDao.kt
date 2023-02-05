@@ -1,6 +1,7 @@
 package com.flow.moviesearch.data.dao
 
 import androidx.room.*
+import com.flow.moviesearch.data.constant.MovieHistoryConstant
 import com.flow.moviesearch.data.local.RecentQueryEntity
 
 @Dao
@@ -19,6 +20,6 @@ interface RecentQueryDao {
     suspend fun insertRecentQuery(query: RecentQueryEntity)
 
     @Query("DELETE FROM ${RecentQueryEntity.TABLE_NAME} where ${RecentQueryEntity.COLUMN_TIME} NOT IN " +
-        "(SELECT ${RecentQueryEntity.COLUMN_TIME} from ${RecentQueryEntity.TABLE_NAME} ORDER BY ${RecentQueryEntity.COLUMN_TIME} DESC LIMIT 20)")
+        "(SELECT ${RecentQueryEntity.COLUMN_TIME} from ${RecentQueryEntity.TABLE_NAME} ORDER BY ${RecentQueryEntity.COLUMN_TIME} DESC LIMIT ${MovieHistoryConstant.HISTORY_MAX_SIZE})")
     suspend fun removeRecentQueries()
 }
