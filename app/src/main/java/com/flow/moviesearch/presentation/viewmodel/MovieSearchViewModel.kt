@@ -138,6 +138,7 @@ class MovieSearchViewModel @Inject constructor(
     }
 
     fun movieClickEvent(movie: MovieModel) = viewModelScope.launch {
+        _uiState.emit(UiState.KeyboardShown(false))
         _uiState.emit(UiState.NavigateMovieUrl(movie.linkUrl))
     }
 
