@@ -137,8 +137,8 @@ class MovieSearchViewModel @Inject constructor(
         handle[KEY_SEARCH_INFO] = SearchInfo(recentQuery.value, movieSearchResult.value.curPage + 1)
     }
 
-    fun movieClickEvent(movie: MovieModel) {
-
+    fun movieClickEvent(movie: MovieModel) = viewModelScope.launch {
+        _uiState.emit(UiState.NavigateMovieUrl(movie.linkUrl))
     }
 
     fun recentQueryHistoryEvent() = viewModelScope.launch {
