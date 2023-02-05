@@ -5,4 +5,18 @@ data class MovieModel(
     val title: String,
     val pubYear: String,
     val rating: Double
-)
+) {
+    infix fun isSameItem(other: Any?): Boolean {
+        return when (other) {
+            is MovieModel -> this.title == other.title
+            else -> false
+        }
+    }
+
+    infix fun isSameContent(other: Any?): Boolean {
+        return when (other) {
+            is MovieModel -> this == other
+            else -> false
+        }
+    }
+}
