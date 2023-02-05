@@ -2,7 +2,7 @@ package com.flow.moviesearch.presentation.di
 
 import android.content.Context
 import com.flow.moviesearch.BuildConfig
-import com.flow.moviesearch.data.constant.NetworkConstant
+import com.flow.moviesearch.data.constant.MovieApiConstant
 import com.flow.moviesearch.data.network.NaverClientInterceptor
 import com.flow.moviesearch.data.network.NetworkConnectionInterceptor
 import dagger.Module
@@ -49,7 +49,7 @@ object RetrofitModule {
     @Singleton
     fun provideNaverSearchRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
-            .baseUrl(NetworkConstant.BASE_URL)
+            .baseUrl(MovieApiConstant.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

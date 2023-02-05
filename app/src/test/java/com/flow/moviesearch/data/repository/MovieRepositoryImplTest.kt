@@ -1,6 +1,6 @@
 package com.flow.moviesearch.data.repository
 
-import com.flow.moviesearch.data.constant.NetworkConstant
+import com.flow.moviesearch.data.constant.MovieApiConstant
 import com.flow.moviesearch.data.datasource.MovieSearchDataSource
 import com.flow.moviesearch.data.datasource.RecentQueryDataSource
 import com.flow.moviesearch.data.entity.response.MovieSearchResponse
@@ -57,11 +57,11 @@ internal class MovieRepositoryImplTest {
         var page = 1
         val total = 21
         coEvery { searchDataSource.searchMovie(any(), any()) } returns dummy.copy(total = total)
-        repeat(total/NetworkConstant.RESPONSE_DISPLAY) {
+        repeat(total/MovieApiConstant.RESPONSE_DISPLAY) {
             repository.searchMovie("query", page++)
         }
         repository.searchMovie("query", page)
-        val start = (page-1) * NetworkConstant.RESPONSE_DISPLAY + 1 // 이전 페이지 마지막 Item + 1
+        val start = (page-1) * MovieApiConstant.RESPONSE_DISPLAY + 1 // 이전 페이지 마지막 Item + 1
 
         coVerify { searchDataSource.searchMovie(any(), start) }
     }
@@ -72,7 +72,7 @@ internal class MovieRepositoryImplTest {
         coEvery { searchDataSource.searchMovie(any(), any()) } returns dummy.copy(total = 40)
         repository.searchMovie("query", page++) // total 을 21로 저장
         repository.searchMovie("query", page) // 페이지 2로 요청, start 계산 수행
-        val start = (page-1) * NetworkConstant.RESPONSE_DISPLAY + 1 // 이전 페이지 마지막 Item + 1
+        val start = (page-1) * MovieApiConstant.RESPONSE_DISPLAY + 1 // 이전 페이지 마지막 Item + 1
 
         coVerify { searchDataSource.searchMovie(any(), start) }
     }

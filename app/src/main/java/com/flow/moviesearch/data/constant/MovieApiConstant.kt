@@ -1,6 +1,6 @@
 package com.flow.moviesearch.data.constant
 
-object NetworkConstant {
+object MovieApiConstant {
 
     const val BASE_URL = "https://openapi.naver.com/v1/search/"
 
