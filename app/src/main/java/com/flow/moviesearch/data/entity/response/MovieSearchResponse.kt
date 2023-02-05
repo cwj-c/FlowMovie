@@ -42,7 +42,10 @@ data class MovieSearchResponse(
     ) {
         fun toModel(): MovieModel = MovieModel(
             imageUrl = image,
-            title = title,
+            title = title.run {
+                replace("<b>", "")
+                    .replace("</b>", "")
+            },
             pubYear = pubDate,
             rating = userRating,
             linkUrl = link
