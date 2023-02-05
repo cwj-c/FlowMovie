@@ -3,6 +3,8 @@ package com.flow.moviesearch.presentation.di
 import android.app.Application
 import android.content.Context
 import com.flow.moviesearch.data.local.MovieRoomDatabase
+import com.flow.moviesearch.presentation.viewmodel.StringResourceProvider
+import com.flow.moviesearch.presentation.viewmodel.StringResourceProviderImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,5 +25,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRoomDatabase(@ApplicationContext context: Context) = MovieRoomDatabase.getDatabase(context)
-    
+
+    @Provides
+    @Singleton
+    fun provideStringResourceProvider(
+        @ApplicationContext context: Context
+    ): StringResourceProvider = StringResourceProviderImpl(context)
 }
