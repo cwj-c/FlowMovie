@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="movie"
+            type="com.flow.moviesearch.domain.model.MovieModel" />
+
+        <variable
+            name="holder"
+            type="com.flow.moviesearch.presentation.ui.moviesearch.MovieSearchAdapter.MovieSearchResultViewHolder" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin"
+        android:background="?attr/selectableItemBackground"
+        android:onClickListener="@{() -> holder.itemClickListener.invoke(movie)}"
+        >
+
+        <ImageView
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_image_placeholder"
+            app:loadUrl="@{movie.imageUrl}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/iv_movie"
+            android:adjustViewBounds="true"
+            android:layout_width="@dimen/movie_search_result_image_size"
+            android:layout_height="@dimen/movie_search_result_image_size"
+            />
+
+        <TextView
+            android:layout_marginStart="@dimen/margin"
+            android:text="@{@string/content_movie_title(movie.title)}"
+            app:layout_constraintTop_toTopOf="@id/iv_movie"
+            app:layout_constraintStart_toEndOf="@id/iv_movie"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tv_pub_year"
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="title"
+            />
+
+        <TextView
+            android:text="@{@string/content_movie_pub_year(movie.pubYear)}"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tv_rating"
+            android:id="@+id/tv_pub_year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="pubYear"
+            />
+
+        <TextView
+            android:text="@{@string/content_movie_rating(movie.rating)}"
+            app:layout_constraintTop_toBottomOf="@id/tv_pub_year"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/iv_movie"
+            android:id="@+id/tv_rating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="rating"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

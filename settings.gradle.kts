@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "FlowMovie"
-include ':app'
+include(":app")
