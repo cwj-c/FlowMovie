@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="viewModel"
+            type="com.flow.moviesearch.presentation.viewmodel.MovieSearchViewModel" />
+
+        <variable
+            name="editorActionListener"
+            type="android.widget.TextView.OnEditorActionListener" />
+
+        <variable
+            name="adapter"
+            type="com.flow.moviesearch.presentation.ui.moviesearch.MovieSearchAdapter" />
+
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.ui.moviesearch.MovieSearchActivity"
+        >
+
+        <EditText
+            android:layout_marginHorizontal="@dimen/margin"
+            android:layout_marginTop="@dimen/margin"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="16sp"
+            android:textColor="#101010"
+            android:gravity="center_vertical"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:layout_centerVertical="true"
+            android:paddingVertical="10dp"
+            android:id="@+id/et_query"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingEnd="45dp"
+            android:paddingStart="5dp"
+            android:background="@drawable/bg_input_query"
+            android:text="@{viewModel.recentQuery}"
+            android:onTextChanged="@{(text, start, before, count) -> viewModel.inputChangedEvent(text)}"
+            app:onEditorActionListener="@{editorActionListener}"
+            />
+
+        <ImageButton
+            app:layout_constraintTop_toTopOf="@id/et_query"
+            app:layout_constraintEnd_toEndOf="@id/et_query"
+            app:layout_constraintBottom_toBottomOf="@id/et_query"
+            android:padding="5dp"
+            android:id="@+id/iv_btn_search"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/bg_btn_search"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:onClickListener="@{() -> viewModel.inputFinishEvent(viewModel.recentQuery)}"
+            />
+
+        <TextView
+            android:onClickListener="@{() -> viewModel.recentQueryHistoryEvent()}"
+            android:id="@+id/tv_recent_history"
+            android:layout_marginHorizontal="@dimen/margin"
+            android:layout_marginTop="@dimen/margin"
+            app:layout_constraintTop_toBottomOf="@id/et_query"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/recent_query_history"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            app:layoutManager="LinearLayoutManager"
+            android:adapter="@{adapter}"
+            android:id="@+id/rv_search"
+            android:layout_marginTop="@dimen/margin"
+            app:layout_constraintTop_toBottomOf="@id/tv_recent_history"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            />
+
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/black"
+            android:visibility="@{viewModel.dataLoading ? View.VISIBLE : View.GONE, default=gone }"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
