@@ -1,13 +1,14 @@
 package com.flow.moviesearch.presentation.ui.moviesearch
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.flow.moviesearch.R
 import com.flow.moviesearch.databinding.ActivityMovieSearchBinding
@@ -15,9 +16,9 @@ import com.flow.moviesearch.presentation.ui.base.BindingActivity
 import com.flow.moviesearch.presentation.ui.extension.repeatOnStarted
 import com.flow.moviesearch.presentation.ui.extension.setSoftKeyboardVisible
 import com.flow.moviesearch.presentation.ui.extension.showToast
+import com.flow.moviesearch.presentation.ui.recentquery.RecentQueryHistoryActivity
 import com.flow.moviesearch.presentation.viewmodel.MovieSearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -90,7 +91,9 @@ class MovieSearchActivity : BindingActivity<ActivityMovieSearchBinding>() {
 
                         is MovieSearchViewModel.UiState.NavigateMovieUrl -> showToast("movie url")
 
-                        is MovieSearchViewModel.UiState.NavigateRecentQueryHistory -> showToast("recent query")
+                        is MovieSearchViewModel.UiState.NavigateRecentQueryHistory -> navigateHistoryView.launch(
+                            RecentQueryHistoryActivity.get(this@MovieSearchActivity)
+                        )
                     }
                 }
             }
@@ -100,6 +103,14 @@ class MovieSearchActivity : BindingActivity<ActivityMovieSearchBinding>() {
                     searchAdapter.updateList(it)
                 }
             }
+        }
+    }
+
+    private val navigateHistoryView = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if(it.data == null || it.resultCode != Activity.RESULT_OK)
+            return@registerForActivityResult
+        it.data!!.extras?.getString(RecentQueryHistoryActivity.KEY_EXTRA_HISTORY)?.let { q ->
+            viewModel.inputFinishEvent(q)
         }
     }
 
