@@ -44,7 +44,8 @@ data class MovieSearchResponse(
             imageUrl = image,
             title = title,
             pubYear = pubDate,
-            rating = userRating
+            rating = userRating,
+            linkUrl = link
         )
     }
 }

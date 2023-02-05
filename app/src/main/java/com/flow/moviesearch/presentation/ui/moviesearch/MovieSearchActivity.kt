@@ -2,6 +2,8 @@ package com.flow.moviesearch.presentation.ui.moviesearch
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -87,9 +89,11 @@ class MovieSearchActivity : BindingActivity<ActivityMovieSearchBinding>() {
                     when (it) {
                         is MovieSearchViewModel.UiState.ShowToast -> showToast(it.message)
 
-                        is MovieSearchViewModel.UiState.KeyboardShown -> setSoftKeyboardVisible(binding.root, it.visible)
+                        is MovieSearchViewModel.UiState.KeyboardShown -> setSoftKeyboardVisible(binding.etQuery, it.visible)
 
-                        is MovieSearchViewModel.UiState.NavigateMovieUrl -> showToast("movie url")
+                        is MovieSearchViewModel.UiState.NavigateMovieUrl -> startActivity(
+                            Intent(Intent.ACTION_VIEW, Uri.parse(it.url))
+                        )
 
                         is MovieSearchViewModel.UiState.NavigateRecentQueryHistory -> navigateHistoryView.launch(
                             RecentQueryHistoryActivity.get(this@MovieSearchActivity)
